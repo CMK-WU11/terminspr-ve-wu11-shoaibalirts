@@ -6,10 +6,24 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      sm: "480px",
+      md: "768px",
+      lg: "976px",
+      xl: "1440px",
+    },
+
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        grayish: "#EAEAEA",
+        mehroonish: "#5E2E53",
+        pinkish: "#E1A1E9",
+        blackish: "#000000",
+      },
+      fontFamily: {
+        ubuntu: ["var(--font-ubuntu)"],
+        roboto: ["var(--font-roboto)"],
+        racing: ["var(--font-racingsansone)"],
       },
     },
   },
