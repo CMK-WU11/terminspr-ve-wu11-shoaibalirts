@@ -1,31 +1,17 @@
-import Image from "next/image";
-import Head from "next/head";
-import { Roboto, Racing_Sans_One } from "next/font/google";
+import Footer from "@/components/Footer";
+import Hero from "@/components/Hero";
 
-const robotoFont = Roboto({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-roboto",
-});
-const racingFont = Racing_Sans_One({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-racingsansone",
-});
 export const metadata = {
   title: "Velkommen",
   description: "Velkommen og komme i gang",
 };
-export default function Home() {
+export default function HomePage() {
   return (
-    <main>
-      <div className={`${robotoFont.variable}`}>
-        {/* <p className="font-roboto">Shoaib</p> */}
-      </div>
-      <div className={`${racingFont.variable}`}>
-        <p className="font-racing">Ali</p>
-      </div>
-      <p className="font-ubuntu">hello</p>
-    </main>
+    <>
+      <main className="flex items-center justify-center relative">
+        <Hero text1="landrup" text2="dans" linkText="kom i gang" />
+        {/* <p className="font-ubuntu">hello</p> */}
+      </main>
+    </>
   );
 }
