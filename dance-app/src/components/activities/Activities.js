@@ -1,6 +1,36 @@
 "use client";
+import Image from "next/image";
+import Link from "next/link";
 export default function Activities({ activities }) {
-  // console.log(activities); // use activities.map and Link to get id of each activity
-
-  return <article></article>;
+  console.log(activities);
+  // let random = Math.floor(Math.random() * 100 + 1);
+  return (
+    <section>
+      {activities.map((activity) => (
+        <Link
+          href={`/activities/${activity.id}`}
+          key={`activitydetails-${activity.id}`}
+        >
+          <article>
+            <div className="relative h-96 mb-4 w-[80vw] ">
+              <Image
+                src={activity.asset.url}
+                layout="fill"
+                objectFit="cover"
+                priority
+                alt={`activity-${activity.asset.url}`}
+                className="absolute rounded-xl md:rounded-l-xl transform hover:scale-105 hover:rounded-xl duration-200"
+              />
+              <div className="absolute inset-x-0 bottom-4 bg-pinkish flex flex-col items-center justify-center p-12 text-black tracking-wide text-xl px-12 py-16">
+                <p>{activity.name}</p>
+                <p>
+                  {activity.minAge}-<span>{activity.maxAge} år</span>
+                </p>
+              </div>
+            </div>
+          </article>
+        </Link>
+      ))}
+    </section>
+  );
 }
