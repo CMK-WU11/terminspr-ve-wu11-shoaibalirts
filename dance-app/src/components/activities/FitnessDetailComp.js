@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 export default function FitnessDetailComp({ fitness }) {
   //   console.log(fitness);
+  const [isLoggedin, setIsLoggedin] = useState(true);
   return (
     <>
       <section>
@@ -15,9 +17,17 @@ export default function FitnessDetailComp({ fitness }) {
             alt={`fitness-${fitness.asset.url}`}
             className="absolute md:rounded-xl transform md:hover:scale-105 md:hover:rounded-xl md:duration-200"
           />
-          <button className="absolute right-1/4 bottom-4 rounded-xl px-32 py-8 bg-mehroonish text-grayish font-ubuntu text-2xl">
-            Tilmeld
-          </button>
+
+          {isLoggedin && (
+            <button className="absolute right-1/4 bottom-4 rounded-xl px-32 py-8 bg-mehroonish text-grayish font-ubuntu text-2xl">
+              Forlad
+            </button>
+          )}
+          {!isLoggedin && (
+            <button className="absolute right-1/4 bottom-4 rounded-xl px-32 py-8 bg-mehroonish text-grayish font-ubuntu text-2xl">
+              Tilmeld
+            </button>
+          )}
         </div>
         <div className="flex flex-col p-12 text-white px-12 py-4 brightness-100">
           <h2 className="text-[24px]">{fitness.name}</h2>

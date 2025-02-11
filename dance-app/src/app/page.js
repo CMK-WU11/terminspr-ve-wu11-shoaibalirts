@@ -10,7 +10,6 @@ export default function HomePage() {
     <>
       <main className="flex items-center justify-center relative">
         <Hero text1="landrup" text2="dans" linkText="kom i gang" />
-        {/* <p className="font-ubuntu">hello</p> */}
       </main>
     </>
   );
