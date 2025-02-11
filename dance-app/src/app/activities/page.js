@@ -1,6 +1,6 @@
 import ActivitiesComp from "@/components/activities/ActivitiesComp";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import Footer from "@/app/Footer";
+import Header from "@/app/Header";
 import { getActivities } from "@/lib/apilandrupdans";
 
 export const metadata = {

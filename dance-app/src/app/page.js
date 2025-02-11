@@ -1,4 +1,4 @@
-import Footer from "@/components/Footer";
+import Footer from "@/app/Footer";
 import Hero from "@/components/Hero";
 
 export const metadata = {
