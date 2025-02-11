@@ -2,7 +2,7 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 
 export const metadata = {
-  title: "Velkommen",
+  title: "Velkommen | Dans App",
   description: "Velkommen og komme i gang",
 };
 export default function HomePage() {

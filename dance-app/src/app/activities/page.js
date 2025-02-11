@@ -1,10 +1,10 @@
-import Activities from "@/components/activities/Activities";
+import ActivitiesComp from "@/components/activities/ActivitiesComp";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { getActivities } from "@/lib/apilandrupdans";
 
 export const metadata = {
-  title: "Aktiviteter",
+  title: "Aktiviteter | Dans App",
   description: "List of all activities",
 };
 export default async function ActivitiesPage() {
@@ -16,7 +16,7 @@ export default async function ActivitiesPage() {
       <div className="text-grayish font-ubuntu">
         <Header>Aktiviteter</Header>
         <main>
-          <Activities activities={activities} />
+          <ActivitiesComp activities={activities} />
         </main>
       </div>
       <Footer />

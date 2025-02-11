@@ -45,7 +45,7 @@ export default function Hero({ text1, text2, linkText }) {
           {loaded && (
             <Link
               href="/activities"
-              className="absolute bottom-4 center px-8 py-4 rounded-xl bg-mehroonish text-grayish duration-[1.5s] hover:bg-black hover:text-white"
+              className="absolute bottom-4 center px-8 py-4 rounded-xl bg-mehroonish text-grayish duration-[1.5s] hover:bg-black hover:text-white animate-pulse"
             >
               {linkText}
             </Link>
