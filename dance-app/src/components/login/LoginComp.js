@@ -1,19 +1,26 @@
 "use client";
-import { getToken } from "@/lib/apilandrupdans";
+import { getAuthorization, getAuthorizationData } from "@/lib/apilandrupdans";
 import { useState } from "react";
+import Cookies from "js-cookie";
 
 export default function LoginComp() {
   const [enteredValues, setEnteredValues] = useState({
     name: "",
     password: "",
   });
+  const myToken = Cookies.get("cookieToken");
+  console.log("myToken in LoginComp: ", myToken);
+  if (myToken === undefined) {
+    console.log("user is not logged in"); // it worked
+  }
   async function handleSubmission(e) {
-    // console.log(enteredValues.name);
-    // console.log(enteredValues.password);
-
+    // required client side validation
     e.preventDefault();
-    const data = await getToken(enteredValues);
-    console.log("Data: ", data);
+    const data = await getAuthorizationData(enteredValues);
+    console.log("Authoration Success/Unsuccessful: ", data);
+    if (data === "success") {
+      // use brear token to send new request to api and get new data and render another component
+    }
   }
 
   function handleInputChange(eventEmitterElement, value) {
