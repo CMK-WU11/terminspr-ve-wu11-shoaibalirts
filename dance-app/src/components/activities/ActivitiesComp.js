@@ -2,8 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 export default function ActivitiesComp({ activities }) {
-  
-  console.log(activities);
+  // console.log(activities);
 
   // let random = Math.floor(Math.random() * 100 + 1);
   return (
