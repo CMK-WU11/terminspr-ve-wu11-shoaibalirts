@@ -1,13 +1,20 @@
 "use client";
-import { getUserData } from "@/lib/apilandrupdans";
+import {
+  getUserData,
+  addThisUserToActivity,
+  deleteThisUserFromThisActivity,
+} from "@/lib/apilandrupdans";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-export default function FitnessDetailComp({ fitness }) {
+export default function FitnessDetailComp({ fitness, activityId }) {
   const [isTextBtn, setIsTextBtn] = useState();
+  const [existedActivityForThisUser, setExistedActivityForThisUser] =
+    useState(false);
   const myRole = Cookies.get("cookieRole");
   const myToken = Cookies.get("cookieToken");
   const userId = Cookies.get("cookieUserId");
+
   // console.log("myToken in FitnessDetailComp: ", myToken);
   //   console.log(fitness);
   function abc() {
@@ -19,7 +26,7 @@ export default function FitnessDetailComp({ fitness }) {
   }
 
   let userData;
-  let numOfActivitiesThisUserHas;
+  // let numOfActivitiesThisUserHas;
   useEffect(() => {
     (async () => {
       userData = await getUserData(userId);
@@ -27,17 +34,56 @@ export default function FitnessDetailComp({ fitness }) {
         "no. of activities this user has (console log in FitnessDetailComp): ",
         userData.activities.length
       );
-      numOfActivitiesThisUserHas = userData.activities.length;
-      if (numOfActivitiesThisUserHas === 0 && myRole !== "instructor") {
+      // numOfActivitiesThisUserHas = userData.activities.length;
+      if (myRole !== "instructor") {
         setIsTextBtn("Tilmeld");
-      } else {
-        setIsTextBtn("Forlad");
       }
-      if (myRole === "instructor") {
+      if (existedActivityForThisUser) {
+        setIsTextBtn("Forlad");
       }
     })();
   }, []);
 
+  async function handleAddLoggedInUserToThisActivity() {
+    const thisUserData = await getUserData(userId);
+    console.log("thisUserData: ", thisUserData); // to check if the activity is added against this user
+
+    thisUserData.activities.forEach((activity) => {
+      console.log("activity.id", activity.id);
+      console.log("activityId", activityId);
+
+      if (activity.id == activityId) {
+        setExistedActivityForThisUser(true);
+        return;
+        // console.log("existedActivityForThisUser: ", existedActivityForThisUser);
+      }
+    });
+
+    // console.log(existedActivityForThisUser); // why undefined
+
+    // if user is alreay tilmeld then we have to show a Slet button instead of tilmeld
+    if (!existedActivityForThisUser) {
+      const addedActivityToThisUser = await addThisUserToActivity(
+        userId,
+        activityId
+      );
+      // console.log("activityData: ", addedActivityToThisUser);
+    } else {
+      console.log("this user has already tilmeldt/signed up to this activity");
+    }
+    // const users = await getUserData(userId);
+  }
+
+  // async function handleDeleteUserFromThisActivity() {
+  //   const isThisUserRegisteredWithActivity = await addThisUserToActivity(
+  //     userId,
+  //     activityId
+  //   );
+  //   const userData = await deleteThisUserFromThisActivity(userId, activityId);
+  //   console.log("userData: ", userData);
+  //   const users = await getUserData(userId);
+  //   console.log("user: ", users);
+  // }
   return (
     <>
       <section>
@@ -51,8 +97,19 @@ export default function FitnessDetailComp({ fitness }) {
             className="absolute md:rounded-xl transform md:hover:scale-105 md:hover:rounded-xl md:duration-200"
           />
           {abc() && (
-            <button className="absolute right-1/4 bottom-4 rounded-xl px-32 py-8 bg-mehroonish text-grayish font-ubuntu text-2xl">
+            <button
+              onClick={handleAddLoggedInUserToThisActivity}
+              className="absolute right-1/4 bottom-4 rounded-xl px-32 py-8 bg-mehroonish text-grayish font-ubuntu text-2xl"
+            >
               {isTextBtn}
+            </button>
+          )}
+          {abc() && existedActivityForThisUser && (
+            <button
+              onClick={handleDeleteUserFromThisActivity}
+              className="absolute right-1/4 bottom-4 rounded-xl px-32 py-8 bg-mehroonish text-grayish font-ubuntu text-2xl"
+            >
+              Forlad
             </button>
           )}
         </div>

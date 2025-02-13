@@ -42,8 +42,10 @@ export default async function Login(prevState, formData) {
         password,
       }),
     });
+    console.log(response.status);
+
     // Error handling
-    if (response.status === 400) {
+    if (response.status === 401) {
       // bad request
       return {
         formData: {
