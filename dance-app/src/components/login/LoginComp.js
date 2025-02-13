@@ -58,7 +58,7 @@ export default function LoginComp() {
         required
       />
       <div className="text-red-700">
-        {formState?.errors?.username._errors[0]}
+        {formState?.errors?.username?._errors[0]}
       </div>
       <input
         defaultValue={formState?.formData?.password}
@@ -71,7 +71,7 @@ export default function LoginComp() {
         required
       />
       <div className="text-red-700">
-        {formState?.errors?.password._errors[0]}
+        {formState?.errors?.password?._errors[0]}
       </div>
       {/* <div className="text-red-700">{formState?.error}</div> */}
       <div className="py-8">

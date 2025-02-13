@@ -18,13 +18,16 @@ export default async function Login(prevState, formData) {
     password,
   });
 
-  return {
-    formData: {
-      username,
-      password,
-    },
-    errors: validate.error.format(),
-  };
+  if (!validate.success) {
+    return {
+      formData: {
+        username,
+        password,
+      },
+      errors: validate.error.format(),
+    };
+  }
+
   //   if (!username.length || password.length) {
   //     return { error: "du skal udfyld begge felter" };
   //   }
