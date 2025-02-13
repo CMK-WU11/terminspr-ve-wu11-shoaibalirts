@@ -1,4 +1,7 @@
 "use server";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+
 import { z } from "zod";
 // login is mentioned in useStateAction hook in LoginComp
 // prevState holds the prevState of the form
@@ -28,7 +31,34 @@ export default async function Login(prevState, formData) {
     };
   }
 
-  //   if (!username.length || password.length) {
-  //     return { error: "du skal udfyld begge felter" };
-  //   }
+  try {
+    const response = await fetch(`http://localhost:4000/auth/token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    });
+    // Error handling
+    if (response.status === 400) {
+      // bad request
+      return {
+        formData: {
+          username,
+          password,
+        },
+        Error: "Forkert brugernavn eller password",
+      };
+    }
+
+    const data = await response.json();
+    const cookieStore = await cookies();
+    cookieStore.set("cookieRole", data.role);
+    cookieStore.set("cookieToken", data.token, { maxAge: 60 * 60 * 24 });
+    cookieStore.set("cookieUserId", data.userId);
+  } catch (error) {}
+  redirect("/activities");
 }

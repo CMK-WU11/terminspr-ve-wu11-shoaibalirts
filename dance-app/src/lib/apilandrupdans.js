@@ -1,5 +1,4 @@
 "use server";
-import { cookies } from "next/headers";
 // import { redirect } from "next/navigation";
 
 export async function getActivities() {
@@ -24,9 +23,11 @@ export async function getFitnessActivity(id) {
     console.log(error);
   }
 }
+/*
 export async function getAuthorizationData(enteredValues) {
   // console.log(enteredValues);
   // required server side validation using zod library
+  
   try {
     const response = await fetch(`http://localhost:4000/auth/token`, {
       method: "POST",
@@ -34,8 +35,8 @@ export async function getAuthorizationData(enteredValues) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: enteredValues.name,
-        password: enteredValues.password,
+        username,
+        password,
       }),
     });
 
@@ -54,10 +55,11 @@ export async function getAuthorizationData(enteredValues) {
     }
     // return data;
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
+   
 }
-
+ */
 // Single user data
 export async function getUserData(userId) {
   const cookieStore = await cookies();
