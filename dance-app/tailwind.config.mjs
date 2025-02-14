@@ -19,6 +19,7 @@ export default {
         mehroonish: "#5E2E53",
         pinkish: "#E1A1E9",
         blackish: "#000000",
+        lightmehroonish: "#CACACA",
       },
       fontFamily: {
         ubuntu: ["var(--font-ubuntu)"],
