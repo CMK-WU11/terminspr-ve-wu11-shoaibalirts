@@ -9,7 +9,6 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 
 export default function FitnessDetailComp({ fitness, userActivityId }) {
-  const [isTextBtn, setIsTextBtn] = useState();
   const [existedActivityForThisUser, setExistedActivityForThisUser] =
     useState(false);
   const [isMaxAgeLimit, setIsMaxAge] = useState(false);
@@ -17,18 +16,7 @@ export default function FitnessDetailComp({ fitness, userActivityId }) {
   const myToken = Cookies.get("cookieToken");
   const userId = Cookies.get("cookieUserId");
 
-  // console.log("myToken in FitnessDetailComp: ", myToken);
-  //   console.log(fitness);
-  function abc() {
-    if (myToken === undefined || myRole === "instructor") {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   // Tilmeld kravSpecs
-  let tilmeld = true;
   async function handleAddLoggedInUserToThisActivity() {
     const thisUserData = await getUserData(userId);
     console.log("thisUserData: ", thisUserData); // to check if the activity is added against this user
@@ -38,21 +26,16 @@ export default function FitnessDetailComp({ fitness, userActivityId }) {
       console.log("user activity Id", userActivityId);
 
       if (activity.id == userActivityId) {
-        // console.log(activity.maxAge);
-        // tilmeld = false;
         setExistedActivityForThisUser(true);
         return;
-        // console.log("existedActivityForThisUser: ", existedActivityForThisUser);
       }
     }); // ended forEach
 
-    // if user is alreay tilmeld then we have to show a Slet button instead of tilmeld
     if (!existedActivityForThisUser) {
       const addedActivityToThisUser = await addThisUserToActivity(
         userId,
         userActivityId
       );
-      // console.log("activityData: ", addedActivityToThisUser);
     }
   }
 
