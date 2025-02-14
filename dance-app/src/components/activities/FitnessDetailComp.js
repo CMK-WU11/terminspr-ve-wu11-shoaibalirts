@@ -7,6 +7,7 @@ import {
 import Cookies from "js-cookie";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+
 export default function FitnessDetailComp({ fitness, userActivityId }) {
   const [isTextBtn, setIsTextBtn] = useState();
   const [existedActivityForThisUser, setExistedActivityForThisUser] =
@@ -37,15 +38,13 @@ export default function FitnessDetailComp({ fitness, userActivityId }) {
       console.log("user activity Id", userActivityId);
 
       if (activity.id == userActivityId) {
-        console.log(activity.maxAge);
-        tilmeld = false;
+        // console.log(activity.maxAge);
+        // tilmeld = false;
         setExistedActivityForThisUser(true);
         return;
         // console.log("existedActivityForThisUser: ", existedActivityForThisUser);
       }
-    });
-
-    // console.log(existedActivityForThisUser); // why undefined
+    }); // ended forEach
 
     // if user is alreay tilmeld then we have to show a Slet button instead of tilmeld
     if (!existedActivityForThisUser) {
@@ -54,10 +53,7 @@ export default function FitnessDetailComp({ fitness, userActivityId }) {
         userActivityId
       );
       // console.log("activityData: ", addedActivityToThisUser);
-    } else {
-      console.log("this user has already tilmeldt/signed up to this activity");
     }
-    // const users = await getUserData(userId);
   }
 
   async function handleDeleteUserFromThisActivity() {
@@ -68,6 +64,7 @@ export default function FitnessDetailComp({ fitness, userActivityId }) {
     console.log("userData: ", userData);
     const users = await getUserData(userId);
     console.log("user: ", users);
+    setExistedActivityForThisUser(false);
   }
   return (
     <>
@@ -82,30 +79,24 @@ export default function FitnessDetailComp({ fitness, userActivityId }) {
             className="absolute md:rounded-xl transform md:hover:scale-105 md:hover:rounded-xl md:duration-200"
           />
           {/* instructor user should not display tilmeld/forlad button */}
-          {abc() && (
-            <button
-              onClick={handleAddLoggedInUserToThisActivity}
-              className="absolute right-1/4 bottom-4 rounded-xl px-32 py-8 bg-mehroonish text-grayish font-ubuntu text-2xl"
-            >
-              {isTextBtn}
-            </button>
-          )}
-
-          {/* default user should show Tilmeld if he does not have this activity in activities */}
-          {!existedActivityForThisUser ? (
+          {myToken === undefined || myRole === "instructor" ? (
+            ""
+          ) : !existedActivityForThisUser ? (
             <button
               onClick={handleAddLoggedInUserToThisActivity}
               className="absolute right-1/4 bottom-4 rounded-xl px-32 py-8 bg-mehroonish text-grayish font-ubuntu text-2xl"
             >
               Tilmeld
             </button>
-          ) : (
+          ) : existedActivityForThisUser ? (
             <button
               onClick={handleDeleteUserFromThisActivity}
               className="absolute right-1/4 bottom-4 rounded-xl px-32 py-8 bg-mehroonish text-grayish font-ubuntu text-2xl"
             >
               Forlad
             </button>
+          ) : (
+            ""
           )}
         </div>
 
