@@ -7,10 +7,11 @@ import {
 import Cookies from "js-cookie";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-export default function FitnessDetailComp({ fitness, activityId }) {
+export default function FitnessDetailComp({ fitness, userActivityId }) {
   const [isTextBtn, setIsTextBtn] = useState();
   const [existedActivityForThisUser, setExistedActivityForThisUser] =
     useState(false);
+  const [isMaxAgeLimit, setIsMaxAge] = useState(false);
   const myRole = Cookies.get("cookieRole");
   const myToken = Cookies.get("cookieToken");
   const userId = Cookies.get("cookieUserId");
@@ -25,34 +26,19 @@ export default function FitnessDetailComp({ fitness, activityId }) {
     }
   }
 
-  let userData;
-  // let numOfActivitiesThisUserHas;
-  useEffect(() => {
-    (async () => {
-      userData = await getUserData(userId);
-      console.log(
-        "no. of activities this user has (console log in FitnessDetailComp): ",
-        userData.activities.length
-      );
-      // numOfActivitiesThisUserHas = userData.activities.length;
-      if (myRole !== "instructor") {
-        setIsTextBtn("Tilmeld");
-      }
-      if (existedActivityForThisUser) {
-        setIsTextBtn("Forlad");
-      }
-    })();
-  }, []);
-
+  // Tilmeld kravSpecs
+  let tilmeld = true;
   async function handleAddLoggedInUserToThisActivity() {
     const thisUserData = await getUserData(userId);
     console.log("thisUserData: ", thisUserData); // to check if the activity is added against this user
 
     thisUserData.activities.forEach((activity) => {
       console.log("activity.id", activity.id);
-      console.log("activityId", activityId);
+      console.log("user activity Id", userActivityId);
 
-      if (activity.id == activityId) {
+      if (activity.id == userActivityId) {
+        console.log(activity.maxAge);
+        tilmeld = false;
         setExistedActivityForThisUser(true);
         return;
         // console.log("existedActivityForThisUser: ", existedActivityForThisUser);
@@ -65,7 +51,7 @@ export default function FitnessDetailComp({ fitness, activityId }) {
     if (!existedActivityForThisUser) {
       const addedActivityToThisUser = await addThisUserToActivity(
         userId,
-        activityId
+        userActivityId
       );
       // console.log("activityData: ", addedActivityToThisUser);
     } else {
@@ -74,16 +60,15 @@ export default function FitnessDetailComp({ fitness, activityId }) {
     // const users = await getUserData(userId);
   }
 
-  // async function handleDeleteUserFromThisActivity() {
-  //   const isThisUserRegisteredWithActivity = await addThisUserToActivity(
-  //     userId,
-  //     activityId
-  //   );
-  //   const userData = await deleteThisUserFromThisActivity(userId, activityId);
-  //   console.log("userData: ", userData);
-  //   const users = await getUserData(userId);
-  //   console.log("user: ", users);
-  // }
+  async function handleDeleteUserFromThisActivity() {
+    const userData = await deleteThisUserFromThisActivity(
+      userId,
+      userActivityId
+    );
+    console.log("userData: ", userData);
+    const users = await getUserData(userId);
+    console.log("user: ", users);
+  }
   return (
     <>
       <section>
@@ -96,15 +81,25 @@ export default function FitnessDetailComp({ fitness, activityId }) {
             alt={`fitness-${fitness.asset.url}`}
             className="absolute md:rounded-xl transform md:hover:scale-105 md:hover:rounded-xl md:duration-200"
           />
-          {abc() && (
+          {/* instructor user should not display tilmeld/forlad button */}
+          {/* {abc() && (
             <button
               onClick={handleAddLoggedInUserToThisActivity}
               className="absolute right-1/4 bottom-4 rounded-xl px-32 py-8 bg-mehroonish text-grayish font-ubuntu text-2xl"
             >
               {isTextBtn}
             </button>
-          )}
-          {abc() && existedActivityForThisUser && (
+          )} */}
+
+          {/* default user should show Tilmeld if he does not have this activity in activities */}
+          {!existedActivityForThisUser ? (
+            <button
+              onClick={handleAddLoggedInUserToThisActivity}
+              className="absolute right-1/4 bottom-4 rounded-xl px-32 py-8 bg-mehroonish text-grayish font-ubuntu text-2xl"
+            >
+              Tilmeld
+            </button>
+          ) : (
             <button
               onClick={handleDeleteUserFromThisActivity}
               className="absolute right-1/4 bottom-4 rounded-xl px-32 py-8 bg-mehroonish text-grayish font-ubuntu text-2xl"

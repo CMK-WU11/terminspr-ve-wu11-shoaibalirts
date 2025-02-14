@@ -15,7 +15,7 @@ export default async function FitnessPage({ params }) {
   return (
     <>
       <main className="bg-mehroonish min-h-screen flex flex-col w-[100vw]">
-        <FitnessDetailComp fitness={fitness} activityId={id} />
+        <FitnessDetailComp fitness={fitness} userActivityId={id} />
       </main>
       <Footer />
     </>

@@ -1,5 +1,6 @@
 "use server";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 // import { redirect } from "next/navigation";
 
 export async function getActivities() {
@@ -114,14 +115,14 @@ export async function addThisUserToActivity(userId, activityId) {
 }
 
 /////////////////////////
-export async function deleteThisUserFromThisActivity(userId, activityId) {
+export async function deleteThisUserFromThisActivity(userId, userActivityId) {
   const cookieStore = await cookies();
   const cookieToken = cookieStore.get("cookieToken");
   // console.log(cookieToken.value);
 
   try {
     const response = await fetch(
-      `http://localhost:4000/api/v1/users/${userId}/activities/${activityId}`,
+      `http://localhost:4000/api/v1/users/${userId}/activities/${userActivityId}`,
       {
         method: "DELETE",
         headers: {
