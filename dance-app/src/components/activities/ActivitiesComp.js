@@ -24,7 +24,7 @@ export default function ActivitiesComp({ activities }) {
                 alt={`activity-${activity.asset.url}`}
                 className="absolute rounded-xl md:rounded-l-xl transform hover:scale-105 hover:rounded-xl duration-200"
               />
-              <div className="absolute inset-x-0 bottom-4 bg-pinkish flex flex-col items-center justify-center p-12 text-black tracking-wide text-xl px-12 py-16">
+              <div className="absolute inset-x-0 bottom-4 bg-pinkish rounded-tr-[48px] rounded-bl-[48px] opacity-75 flex flex-col items-center justify-center p-12 text-black tracking-wide text-xl px-12 py-16">
                 <h2>{activity.name}</h2>
                 <p>
                   {activity.minAge}-<span>{activity.maxAge} år</span>

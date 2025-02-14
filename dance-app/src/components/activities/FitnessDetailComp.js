@@ -82,14 +82,14 @@ export default function FitnessDetailComp({ fitness, userActivityId }) {
             className="absolute md:rounded-xl transform md:hover:scale-105 md:hover:rounded-xl md:duration-200"
           />
           {/* instructor user should not display tilmeld/forlad button */}
-          {/* {abc() && (
+          {abc() && (
             <button
               onClick={handleAddLoggedInUserToThisActivity}
               className="absolute right-1/4 bottom-4 rounded-xl px-32 py-8 bg-mehroonish text-grayish font-ubuntu text-2xl"
             >
               {isTextBtn}
             </button>
-          )} */}
+          )}
 
           {/* default user should show Tilmeld if he does not have this activity in activities */}
           {!existedActivityForThisUser ? (
@@ -108,6 +108,7 @@ export default function FitnessDetailComp({ fitness, userActivityId }) {
             </button>
           )}
         </div>
+
         <div className="flex flex-col p-12 text-white px-12 py-4 brightness-100">
           <h2 className="text-[24px]">{fitness.name}</h2>
           <p className="text-[18px]">
